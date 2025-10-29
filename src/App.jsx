@@ -1,49 +1,84 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react';
 
-import './App.css'
+// ✅ Custom Hook
+
+function useLocalStorageState(key, initialValue) {
+  const [value, setValue] = useState(() => {
+    
+    const storedValue = localStorage.getItem(key);
+    return storedValue !== null ? storedValue : initialValue;
+    
+  });
 
 
+  useEffect(() => {
+    localStorage.setItem(key, value);
+  }, [key, value]);
 
+
+  
+  return [value, setValue];
+}
 
 
 function App() {
-  const [count, setCount] = useState(0)
 
-  return (
-    <div>
-      <h1> Welcome to the counter App</h1>
-
-      <Counter title = "My Counter App"/>
-
-    </div>
-  )
-}
-function Counter({title}) {
-  // you'll need to add state and props here.
-  const [count, setCount] = useState(0);
-
-  const handleIncrease = () => {
-    // This function should increase the count
-    setCount(count + 1);
-   
-  }
-
-
-  const handleReset = () => {
-    // This function should increase the count
-    setCount(0);
   
-  }
+  // ✅ Use custom hook for both fields
+  const [username, setUsername] = useLocalStorageState('username', '');
+  
+  const [color, setColor] = useLocalStorageState('color', '');
+
+  const handleUsernameChange = (event) => {
+    setUsername(event.target.value);
+  };
+
+  const handleColorChange = (event) => {
+    setColor(event.target.value);
+  };
 
   return (
     <div>
+      <h1>Welcome!</h1>
 
-      <h2>{title}</h2>
-      <p>Count:{count}</p>
-      <button onClick={handleIncrease}>increase</button>
-      <button onClick={handleReset}>Reset</button>
+      <InputWithLabel
+        id="username"
+        value={username}
+        onInputChange={handleUsernameChange}
+      >
+        
+        Username:
+      </InputWithLabel>
+
+      
+      <InputWithLabel
+        id="color"
+        value={color}
+        onInputChange={handleColorChange}
+      >
+        
+        Favorite Color:
+      </InputWithLabel>
+
+      
+      <p>Hello, {username || 'Guest'}!</p>
+      {color && <p>Your favorite color is {color}.</p>}
     </div>
-  )
+  );
 }
 
-export default App
+function InputWithLabel(props) {
+  return (
+    <>
+      <label htmlFor={props.id}>{props.children}</label>
+      <input
+        id={props.id}
+        type="text"
+        value={props.value}
+        onChange={props.onInputChange}
+      />
+    </>
+  );
+}
+
+export default App;

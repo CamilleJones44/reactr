@@ -51,6 +51,7 @@ function App() {
       </InputWithLabel>
 
       
+      
       <InputWithLabel
         id="color"
         value={color}
@@ -61,21 +62,27 @@ function App() {
       </InputWithLabel>
 
       
+      
       <p>Hello, {username || 'Guest'}!</p>
       {color && <p>Your favorite color is {color}.</p>}
     </div>
   );
 }
 
+
+
 function InputWithLabel(props) {
+  
   return (
     <>
+      
       <label htmlFor={props.id}>{props.children}</label>
       <input
         id={props.id}
         type="text"
         value={props.value}
         onChange={props.onInputChange}
+        
       />
     </>
   );

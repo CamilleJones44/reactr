@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 
-// ✅ Custom Hook
 
 function useLocalStorageState(key, initialValue) {
   const [value, setValue] = useState(() => {
@@ -23,9 +22,8 @@ function useLocalStorageState(key, initialValue) {
 
 function App() {
 
-  
-  // ✅ Use custom hook for both fields
-  const [username, setUsername] = useLocalStorageState('username', '');
+ 
+  const [username, setUsername] =ss('username', '');
   
   const [color, setColor] = useLocalStorageState('color', '');
 
